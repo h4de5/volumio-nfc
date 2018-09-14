@@ -1,6 +1,6 @@
 [Unit]
 Description=ReadNFC
-After=syslog.target network.target
+After=syslog.target network.target volumio.service volumiossh.service wireless.service mpd.service
 
 [Service]
 User=volumio
