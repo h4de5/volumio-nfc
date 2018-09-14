@@ -17,7 +17,7 @@ See build log at https://0p.no/2017/12/19/volumio_nfc_build.html
 * Install Volumio on a Pi. Tested with version 2.323-2.344.
 * i2c is already enabled.
 * Connect NFC reader as advised, this script assumes i2c.
-* Install requirements and a proper editor =) `sudo apt install python3 python3-gpiozero vim-nox`
+* Install requirements and a proper editor =) `sudo apt install python3 python3-requests python3-gpiozero vim-nox`
 * Fetch https://github.com/HubCityLabs/py532lib
 * Download this repo and run readnfc.py manually to test.
 * To make it autostart, copy systemd service file readnfc.service to /etc/systemd/system/readnfc.service and enable: `sudo cp readnfc.service /etc/systemd/system/`

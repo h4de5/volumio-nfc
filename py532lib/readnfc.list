@@ -1,5 +1,6 @@
-# Example tags
-# Format is service (webradio / spop / others)
+# Format is:
+
+# service (webradio / spop / others)
 # separator: ,
 # uri ( http..., spotify url, path )
 # separator: ;
@@ -54,3 +55,19 @@ spop,spotify:user:larsfp:playlist:07cYRfHWcYPSsK0GF0RIir;4b01010044000704e67ecae
 
 # rage
 spop,spotify:user:larsfp:playlist:0AMCfQSMw2bGTp6OQqZLIG;4b01010044000704df7ecaef4a80
+
+# 1
+spop,spotify:user:larsfp:playlist:2cuQykWGOAv6RQErk5CPHJ;4b01010044000704ba7d12cc5380
+
+# 2
+spop,spotify:user:larsfp:playlist:6iYET4h7SIPvEHiIImGwqm;4b0101004400070408b422cc5380
+
+# 3
+spop,spotify:user:larsfp:playlist:58WSbcj5mE28ZmdG840hjZ;4b0101004400070421b822cc5380
+
+# Nordland
+webradio,http://nrk-mms-live.telenorcdn.net:80/nrk_radio_p1_nordland_aac_h;4b01010044000704dacec24c5a80
+
+# Sint
+spop,spotify:user:larsfp:playlist:37xyYpYUkXJdF9zEy65mKW;4b01010044000704d041e20e4480
+
