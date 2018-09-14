@@ -34,6 +34,8 @@ Optional:
 * Led.py and led.service for adding a status LED.
 * Thank me.
 
+* rotary.py is to use a rotary encoder for next, previous.
+
 ## Debugging
 
 For debugging the NFC reader, you can install libnfc5 and i2c-tools.
