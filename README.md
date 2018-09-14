@@ -40,7 +40,7 @@ For debugging the NFC reader, you can install libnfc5 and i2c-tools.
 
 * Configure libnfc: `sudo mkdir /etc/nfc; sudo vim /etc/nfc/libnfc.conf`:
 
-```
+```bash
   device.name = "PN532 over I2C"
   device.connstring = "pn532_i2c:/dev/i2c-1"
 ```
@@ -54,4 +54,3 @@ For debugging the NFC reader, you can install libnfc5 and i2c-tools.
 * LED to notify when volumio is ready.
 * LED to notify when volumio is broken (no wifi, shut down, etc)
 * Better voice feedback.
-
