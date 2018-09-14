@@ -39,60 +39,76 @@ def report_card(cardid=''):
     r = requests.get(tagurl + '?id=' + cardid, allow_redirects=True)
     return True
 
+def read_cards():
+    log('Reading tag list ' + tagfile)
 
+    with open(tagfile, 'r') as f:
+        tagdata = f.read()
+
+    tags = {}
+    for tagline in tagdata.split('\n'):
+        if tagline.startswith('#') or \
+        tagline.startswith(' ') or \
+        0 == len(tagline):
+            continue
+
+        serviceuri = tagline.split(';')[0]
+        tag = tagline.split(';')[1]
+        tags[serviceuri] = tag
+
+    log(str(len(tags)) + ' tags in store. Ready to read.')
+    return tags
+
+def stop_volumio():
+    log('Stoping any music currently playing')
+    call('/usr/local/bin/volumio clear > /dev/null 2>&1', shell=True)
+    call(['/usr/bin/mpc', '-q', 'stop']) # This shouldn't be necessary, but...
+    #time.sleep(0.1)
+
+def get_cardid():
+    binarycard_data = pn532.read_mifare().get_data()
+    hexcard_data = binascii.hexlify(binarycard_data).decode()
+    log('Card data: %s / %s' % (str(binarycard_data), hexcard_data))
+    return hexcard_data
+
+def play_feedback():
+    log('Play audio feedback.') # file needs to be in local music archive:
+    if os.path.isfile('/' + feedbackfile):
+        call(['/usr/local/bin/node', '/volumio/app/plugins/system_controller/volumio_command_line_client/commands/addplay.js', 'mpd', feedbackfile])
+        time.sleep(1)
+        call('/usr/local/bin/volumio clear > /dev/null 2>&1', shell=True)
+
+def play_volumio(name):
+    type, uri = name.split(',')
+    log('Play selected source ' + type + ' ' + uri)
+    call('/usr/local/bin/node /volumio/app/plugins/system_controller/volumio_command_line_client/commands/addplay.js ' + type + ' ' + uri + ' &', shell=True)
+    time.sleep(5) # Keep same card from being read again
+
+
+# Init
 pn532 = Pn532_i2c()
 pn532.SAMconfigure()
 
 if refresh_list():
     log(message='Updated list from %s.' % tagurl)
-
-log('Reading tag list ' + tagfile)
-
-# Read tag list
-with open(tagfile, 'r') as f:
-    tagdata = f.read()
-
-tags = {}
-for tagline in tagdata.split('\n'):
-    if tagline.startswith('#') or \
-       tagline.startswith(' ') or \
-       0 == len(tagline):
-        continue
-
-    serviceuri = tagline.split(';')[0]
-    tag = tagline.split(';')[1]
-    tags[serviceuri] = tag
-
-log(str(len(tags)) + ' tags in store. Ready to read.')
+tags = read_cards()
 
 while True:
     try:
-        binarycard_data = pn532.read_mifare().get_data()
-        hexcard_data = binascii.hexlify(binarycard_data).decode()
-        log('Card data: %s / %s' % (str(binarycard_data), hexcard_data))
+        hexcard_data = get_cardid()
+        stop_volumio()
         
-        log('Stoping any music currently playing')
-        call('/usr/local/bin/volumio clear > /dev/null 2>&1', shell=True)
-        call(['/usr/bin/mpc', '-q', 'stop']) # This shouldn't be necessary, but...
-        #time.sleep(0.1)
-    
         # Loop list of tags in search for the one scanned
+        found_card = False
         for name, nfcid in tags.items():
             if hexcard_data == nfcid: # Found!
-                log('Play audio feedback.') # file needs to be in local music archive:
-                if os.path.isfile('/' + feedbackfile):
-                    call(['/usr/local/bin/node', '/volumio/app/plugins/system_controller/volumio_command_line_client/commands/addplay.js', 'mpd', feedbackfile])
-                    time.sleep(1)
-                    call('/usr/local/bin/volumio clear > /dev/null 2>&1', shell=True)
-    
-                type, uri = name.split(',')
-    
-                log('Play selected source ' + type + ' ' + uri)
-                call('/usr/local/bin/node /volumio/app/plugins/system_controller/volumio_command_line_client/commands/addplay.js ' + type + ' ' + uri + ' &', shell=True)
-                time.sleep(5) # Keep same card from being read again
+                found_card = True
+                play_feedback()
+                play_volumio(name)
                 break # Stop searching
 
-        report_card(hexcard_data)
+        if not found_card:
+            report_card(hexcard_data)
 
     except KeyboardInterrupt:
         sys.exit(0)
