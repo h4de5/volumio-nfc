@@ -1,0 +1,15 @@
+[Unit]
+Description=Rotary encoder
+After=syslog.target network.target
+
+[Service]
+User=volumio
+WorkingDirectory=/home/volumio/volumio-nfc/
+ExecStart=/home/volumio/volumio-nfc/rotary.py
+RestartSec=1s
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
