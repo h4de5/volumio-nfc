@@ -1,0 +1,17 @@
+# Format is:
+# service (mpd / webradio / spop / others)
+# separator: ,
+# uri ( http..., spotify url, path )
+# separator: ;
+# hex of binary tag data, outputted to log or console when card is read
+
+# file is not unicode safe yet. Keep to ascii.
+
+# local file example
+mpd,"mnt/INTERNAL/song.mp3";4b023923920392309025092823041
+
+# spotify example
+spop,spotify:track:4uLU6hMCjMI75M1A2tKUQC;4b023923920392309025092823042
+
+# webradio example
+webradio,http://example.com/url/to/radio.aac;4b023923920392309025092823043

@@ -1,0 +1,11 @@
+[readnfc]
+# file to read nfc tag ids from
+tagfile = readnfc.list
+# file to be added to the playlist after reading tag
+feedbackfile = mnt/INTERNAL/thankyouk.mp3
+# tag reporting url - new tags are posted there
+tagurl = http://www.example.com/path/
+
+[led]
+# server to ping, to see if device is online
+pingserver = http://www.example.com/
