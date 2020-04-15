@@ -3,8 +3,10 @@
 tagfile = readnfc.list
 # file to be added to the playlist after reading tag
 feedbackfile = mnt/INTERNAL/thankyouk.mp3
-# tag reporting url - new tags are posted there
+# tag update url - existing tags are loaded from there
 tagurl = http://www.example.com/path/
+# tag reporting url - new tags are posted there
+reporturl = http://www.example.com/path/?id=
 
 [led]
 # server to ping, to see if device is online

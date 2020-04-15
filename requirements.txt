@@ -1,0 +1,3 @@
+pn532pi
+requests
+parseconfig
