@@ -83,7 +83,7 @@ def read_cards():
         log('Error missing local tag file')
         return False
 
-    with open(config['readnfc']['tagfile'], 'r') as f:
+    with open(config['readnfc']['tagfile'], 'r', encoding="utf-8") as f:
         tagdata = f.read()
     f.close()
 
@@ -247,6 +247,7 @@ def loop():
 
 # Program start from here
 if __name__ == '__main__':
+
     setup()
     # waiting for input
     log('Waiting for card...')
