@@ -21,8 +21,8 @@ from subprocess import call
 # from py532lib.frame import *
 # from py532lib.i2c import *
 # sudo pip3 install pn532pi
-from pn532pi import Pn532, pn532
-from pn532pi.interfaces.pn532i2c import Pn532I2c
+from pn532pi import Pn532I2c, Pn532, pn532
+# from pn532pi.interfaces.pn532i2c import Pn532I2c
 # from pn532pi.interfaces.pn532spi import Pn532Spi
 # from pn532pi.interfaces.pn532hsu import Pn532Hsu
 
@@ -204,8 +204,9 @@ def loop():
     #  'uid' will be populated with the UID, and uidLength will indicate
     #  if the uid is 4 bytes (Mifare Classic) or 7 bytes (Mifare Ultralight)
 
+    # log('waiting for card..')
     success, uid = nfc.readPassiveTargetID(
-        pn532.PN532_MIFARE_ISO14443A_106KBPS)
+        pn532.PN532_MIFARE_ISO14443A_106KBPS, timeout=50)
 
     if (success):
         #  Display some basic information about the card
@@ -256,6 +257,8 @@ if __name__ == '__main__':
             if loop() == True:
                 time.sleep(5)
                 log('Waiting for card...')
+            else:
+                time.sleep(1.95)
 
     except KeyboardInterrupt:
         log('Good bye!')

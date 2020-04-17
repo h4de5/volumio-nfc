@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]
+then
+  echo "Service helper for raspberry"
+  echo "Usage: $0 <task>"
+  echo " tasks"
+  echo "  log - show logs"
+  echo "  status - show status"
+  echo "  start - start services"
+  echo "  stop - stop services"
+  echo "  restart - restart services"
+  echo "  enable - enable autostart"
+  echo "  disable - disable autostart"
+  echo "  debug - start nfc reader in console"
+fi
+
+case "$1" in
+  log|logs)  sudo journalctl -e -u readnfc.service;;
+  status|start|stop|restart|enable|disable)   sudo systemctl $1 readnfc.service restartnfc.timer   ;;
+  debug)  ./readnfc.py ;;
+  *)   echo "Unknown task $0"; exit 1 ;;
+esac
+
