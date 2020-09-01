@@ -141,6 +141,7 @@ def play_volumio(mediatype, uri):
              mediatype + ' ' + uri + ' &', shell=True)
     elif mediatype == 'mpd' or mediatype == 'webradio':
         log('add to playlist')
+        call('mpc clear ', shell=True)
         call('mpc insert ' + uri, shell=True)
         call(['mpc', 'play'])
     elif mediatype == 'cmd':
