@@ -40,6 +40,7 @@ def log(message=''):
 
 
 def refresh_list():
+    log('Reading tag tagurl ' + config['readnfc']['tagurl'])
     if 0 == len(config['readnfc']['tagurl']):
         # skipping tag list update
         log('Empty tag url')
