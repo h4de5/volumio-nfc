@@ -42,6 +42,7 @@ def log(message=''):
 def refresh_list():
     if 0 == len(config['readnfc']['tagurl']):
         # skipping tag list update
+        log('Empty tag url')
         return False
 
     r = requests.get(config['readnfc']['tagurl'], allow_redirects=True)
